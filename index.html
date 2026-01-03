@@ -11,28 +11,28 @@
         body { font-family: 'Noto Nastaliq Urdu', serif; background: var(--bg); color: var(--text); }
         .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
         
-        /* کور امیج اسٹائل */
-        .cover-section { width: 100%; height: 280px; border-radius: 20px; overflow: hidden; position: relative; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* Cover Section Fixed */
+        .cover-section { width: 100%; height: 280px; border-radius: 20px; overflow: hidden; position: relative; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid #334155; }
         .cover-image { width: 100%; height: 100%; object-fit: cover; }
         .cover-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
 
-        /* مینو کارڈز */
+        /* Categories Grid */
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; }
-        .card { background: var(--card); border-radius: 18px; padding: 12px; text-align: center; cursor: pointer; border: 1px solid #334155; }
-        .card img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; }
+        .card { background: var(--card); border-radius: 18px; padding: 12px; text-align: center; cursor: pointer; border: 1px solid #334155; transition: 0.3s; overflow: hidden; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; display: block; }
 
-        /* سیکشن مینجمنٹ */
+        /* Sections */
         .content-section { display: none; }
         .active { display: block; animation: fadeIn 0.4s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-top: 20px; }
-        .list-container { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-        .item-box { background: #ffffff; color: #1e293b; padding: 18px; border-radius: 12px; text-align: right; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .item-box { background: #ffffff; color: #1e293b; padding: 18px; border-radius: 12px; text-align: center; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
 
         .btn-back { background: #f1f5f9; color: #0f172a; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
         
-        /* موڈلز */
+        /* Modal Styles */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal.active { display: flex; }
         .modal-content { background: white; color: #1e293b; padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; }
@@ -43,7 +43,7 @@
 
     <div class="container" id="home-screen">
         <div class="cover-section">
-            <img src="https://lh3.googleusercontent.com/d/YOUR_COVER_IMAGE_ID" class="cover-image" alt="ناولستان کور">
+            <img src="https://lh3.googleusercontent.com/d/1jeO58Sf8-w5fx5SPQZG8LqJjm7QfPHTe5" class="cover-image" alt="ناولستان">
             <div class="cover-overlay">
                 <h1 style="font-size: 3rem;">ناولستان</h1>
                 <p style="font-size: 1.2rem;">ناول: بازگشتِ عشق</p>
@@ -51,19 +51,19 @@
         </div>
         <div class="categories-grid">
             <div class="card" onclick="showSection('novels')">
-                <img src="https://lh3.googleusercontent.com/d/YOUR_NOVEL_ICON_ID">
+                <img src="https://lh3.googleusercontent.com/d/1jeO58Sf8-w5fx5SPQZG8LqJjm7QfPHTe6" alt="Novel">
                 <h3>📖 ناول پڑھیں</h3>
             </div>
             <div class="card" onclick="showSection('poetry')">
-                <img src="https://lh3.googleusercontent.com/d/YOUR_POETRY_ICON_ID">
+                <img src="https://lh3.googleusercontent.com/d/1jeO58Sf8-w5fx5SPQZG8LqJjm7QfPHTe7" alt="Poetry">
                 <h3>📜 اردو شاعری</h3>
             </div>
             <div class="card" onclick="showSection('codewords')">
-                <img src="https://lh3.googleusercontent.com/d/YOUR_CODE_ICON_ID">
+                <img src="https://lh3.googleusercontent.com/d/1jeO58Sf8-w5fx5SPQZG8LqJjm7QfPHTe8" alt="Codes">
                 <h3>🔐 کوڈ ورڈز</h3>
             </div>
             <div class="card" onclick="showSection('about')">
-                <img src="https://lh3.googleusercontent.com/d/YOUR_ABOUT_ICON_ID">
+                <img src="https://lh3.googleusercontent.com/d/1jeO58Sf8-w5fx5SPQZG8LqJjm7QfPHTe9" alt="Author">
                 <h3>👤 مصنف</h3>
             </div>
         </div>
@@ -76,34 +76,35 @@
 
     <div id="poetry-section" class="content-section container">
         <button class="btn-back" onclick="showHome()">← پیچھے جائیں</button>
-        <div id="poetry-container" class="list-container"></div>
+        <div id="poetry-container" class="items-grid"></div>
     </div>
 
     <div id="codewords-section" class="content-section container">
         <button class="btn-back" onclick="showHome()">← پیچھے جائیں</button>
-        <div id="codewords-container" class="list-container"></div>
+        <div id="codewords-container" class="items-grid"></div>
     </div>
 
     <div id="about-section" class="content-section container">
         <button class="btn-back" onclick="showHome()">← پیچھے جائیں</button>
-        <div id="about-container" class="list-container"></div>
+        <div id="about-container" class="items-grid"></div>
     </div>
 
     <div id="payment-modal" class="modal">
         <div class="modal-content">
-            <h2 style="color:#e11d48">🔒 لاک ہے</h2>
+            <h2 style="color:#e11d48">🔒 یہ حصہ لاک ہے</h2>
             <p id="payment-message" style="margin: 15px 0;"></p>
-            <a id="wa-btn" href="#" class="btn-wa" target="_blank">واٹس ایپ سے کوڈ لیں</a>
-            <button onclick="showCodeModal()">کوڈ درج کریں</button>
-            <button onclick="closeModal()">بند کریں</button>
+            <a id="wa-btn" href="#" class="btn-wa" target="_blank">واٹس ایپ سے رابطہ کریں</a>
+            <button onclick="showCodeModal()" style="padding: 10px; width: 100%; cursor: pointer;">میرے پاس کوڈ ہے</button>
+            <p onclick="closeModal()" style="margin-top:15px; cursor:pointer; font-size:14px;">بند کریں</p>
         </div>
     </div>
 
     <div id="code-modal" class="modal">
         <div class="modal-content">
-            <h2>🔑 کوڈ درج کریں</h2>
-            <input type="text" id="code-input" style="width:100%; padding:15px; margin:20px 0; border:2px solid #cbd5e1; border-radius:10px; text-align:center;">
+            <h2>🔑 کوڈ لکھیں</h2>
+            <input type="text" id="code-input" style="width:100%; padding:15px; margin:20px 0; border:2px solid #cbd5e1; border-radius:10px; text-align:center; font-size:1.2rem;">
             <button class="btn-wa" style="border:none; width:100%;" onclick="verifyCode()">تصدیق کریں</button>
+            <button onclick="closeModal()" style="border:none; background:none; cursor:pointer;">کینسل</button>
         </div>
     </div>
 
