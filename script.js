@@ -11,7 +11,7 @@ const MY_WA = "923125540048";
 let unlocked = JSON.parse(localStorage.getItem('nov_unlocked')) || [];
 let currentPkgId = "";
 
-// ڈیلی کوڈ فارمولا: PKG_ID + Date + Month + X
+// ڈیلی کوڈ فارمولا
 function getDailyCode(pkgId) {
     const d = new Date();
     const codeKey = pkgId + d.getDate() + (d.getMonth() + 1) + "X";
@@ -25,9 +25,17 @@ function showSection(mode) {
     const titles = { novel: "ناول کی اقساط", poetry: "اردو شاعری", codewords: "کوڈ ورڈز", about: "مصنف" };
     document.getElementById('section-title').innerText = titles[mode];
 
-    if (mode === 'novel') renderNovel(); else loadAutoFiles(FOLDERS[mode]);
+    const list = document.getElementById('items-list');
+    list.innerHTML = '<p style="grid-column:1/-1; text-align:center;">لوڈ ہو رہا ہے... براہ کرم انتظار کریں</p>';
+
+    if (mode === 'novel') {
+        renderNovel(); 
+    } else {
+        loadAutoFiles(FOLDERS[mode]);
+    }
 }
 
+// ناول کا فنکشن (لاک سسٹم کے ساتھ)
 function renderNovel() {
     const list = document.getElementById('items-list');
     list.innerHTML = '';
@@ -43,24 +51,37 @@ function renderNovel() {
     }
 }
 
+// باقی تمام فولڈرز کے لیے آٹو لوڈر
 async function loadAutoFiles(folderId) {
     const list = document.getElementById('items-list');
-    list.innerHTML = '<p style="grid-column:1/-1; text-align:center;">لوڈ ہو رہا ہے...</p>';
+    // یہاں ہم ڈرائیو سے تمام فائلیں منگوا رہے ہیں
     const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&key=${API_KEY}&fields=files(id,name,webViewLink)&orderBy=name`;
+
     try {
         const res = await fetch(url);
         const data = await res.json();
-        list.innerHTML = '';
-        data.files.forEach(file => {
-            const card = document.createElement('div');
-            card.className = 'item-card';
-            card.innerText = file.name.replace('.pdf', '');
-            card.onclick = () => window.location.assign(file.webViewLink);
-            list.appendChild(card);
-        });
-    } catch (e) { list.innerHTML = 'نیٹ ورک ایرر!'; }
+        
+        list.innerHTML = ''; // لوڈنگ ختم
+
+        if (data.files && data.files.length > 0) {
+            data.files.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                // فائل کا نام دکھائیں
+                card.innerText = file.name.replace('.pdf', '').replace('.PDF', '');
+                // کلک کرنے پر ڈرائیو ایپ میں کھولیں
+                card.onclick = () => window.location.assign(file.webViewLink);
+                list.appendChild(card);
+            });
+        } else {
+            list.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:orange;">اس فولڈر میں کوئی فائل نہیں ملی۔ ڈرائیو چیک کریں۔</p>';
+        }
+    } catch (e) {
+        list.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:red;">نیٹ ورک کا مسئلہ یا غلط API Key</p>';
+    }
 }
 
+// پیکیج ڈیٹا اور قیمتیں
 function getPkgData(n) {
     if (n <= 10) return { id: "FREE", price: 0 };
     if (n <= 50) return { id: "P1_" + Math.ceil((n-10)/5), price: 50 };
@@ -80,8 +101,12 @@ async function openFile(name, folderId) {
     try {
         const res = await fetch(url);
         const data = await res.json();
-        if (data.files.length > 0) window.location.assign(data.files[0].webViewLink);
-    } catch (e) { alert("مسئلہ آ رہا ہے۔"); }
+        if (data.files && data.files.length > 0) {
+            window.location.assign(data.files[0].webViewLink);
+        } else {
+            alert("فائل نہیں ملی! چیک کریں کہ ڈرائیو میں فائل کا نام صحیح ہے۔");
+        }
+    } catch (e) { alert("مسئلہ آ رہا ہے۔ انٹرنیٹ چیک کریں۔"); }
 }
 
 function verifyAccess() {
@@ -89,8 +114,11 @@ function verifyAccess() {
     if (userInput === getDailyCode(currentPkgId)) {
         unlocked.push(currentPkgId);
         localStorage.setItem('nov_unlocked', JSON.stringify(unlocked));
-        alert("ان لاک ہو گیا!"); location.reload();
-    } else alert("غلط کوڈ!");
+        alert("شکریہ! پیکیج ان لاک ہو گیا۔"); 
+        location.reload();
+    } else {
+        alert("غلط کوڈ! براہ کرم نیا کوڈ حاصل کریں۔");
+    }
 }
 
 function goHome() { location.reload(); }
