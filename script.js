@@ -6,7 +6,7 @@ const FOLDERS = {
 };
 
 const API_KEY = 'AIzaSyCMppjIJi2_xBi3oLVXN0XjdANMX10xmwE';
-const WHATSAPP = "923125540048";
+const WHATSAPP_NUMBER = "923125540048";
 
 let purchasedEpisodes = JSON.parse(localStorage.getItem('purchased_episodes')) || [];
 let currentPkg = null;
@@ -32,15 +32,16 @@ function loadEpisodes() {
         const card = document.createElement('div');
         card.className = 'item-box';
         let pkg = i <= 10 ? 'free' : (i <= 80 ? Math.ceil((i-10)/5) : 'final');
+        
         if (i <= 10 || purchasedEpisodes.includes('pkg_'+pkg)) {
-            card.innerHTML = `قسط ${i}<br><small>اوپن</small>`;
+            card.innerHTML = `قسط ${i}<br><span style="color:#22c55e; font-size:12px;">اوپن</span>`;
             card.onclick = () => openFileByName(i, FOLDERS.novel);
         } else {
-            card.innerHTML = `قسط ${i}<br><small>لاک</small>`;
+            card.innerHTML = `قسط ${i}<br><span style="color:#e11d48; font-size:12px;">لاک</span>`;
             card.onclick = () => {
                 currentPkg = pkg;
                 document.getElementById('payment-message').innerText = `قسط ${i} لاک ہے۔`;
-                document.getElementById('wa-btn').href = `https://wa.me/${WHATSAPP}?text=Code for Ep ${i}`;
+                document.getElementById('wa-btn').href = `https://wa.me/${WHATSAPP_NUMBER}?text=السلام علیکم! مجھے ناول بازگشتِ عشق کا پیکیج ${pkg} خریدنا ہے۔`;
                 document.getElementById('payment-modal').classList.add('active');
             };
         }
@@ -50,7 +51,7 @@ function loadEpisodes() {
 
 async function loadDriveContent(folderId, containerId) {
     const container = document.getElementById(containerId);
-    container.innerHTML = 'لوڈ ہو رہا ہے...';
+    container.innerHTML = '<p style="text-align:center; padding:20px;">مواد لوڈ ہو رہا ہے...</p>';
     const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&key=${API_KEY}&fields=files(id,name,webViewLink)`;
     try {
         const res = await fetch(url);
@@ -59,12 +60,12 @@ async function loadDriveContent(folderId, containerId) {
         data.files.forEach(f => {
             const div = document.createElement('div');
             div.className = 'item-box';
-            div.style.width = '100%'; div.style.marginBottom = '10px';
+            div.style.width = '100%';
             div.innerHTML = `📄 ${f.name}`;
             div.onclick = () => window.open(f.webViewLink, '_blank');
             container.appendChild(div);
         });
-    } catch (e) { container.innerHTML = 'مسئلہ آیا۔'; }
+    } catch (e) { container.innerHTML = 'لوڈنگ میں غلطی ہوئی۔'; }
 }
 
 async function openFileByName(num, folderId) {
@@ -72,8 +73,10 @@ async function openFileByName(num, folderId) {
     try {
         const res = await fetch(url);
         const data = await res.json();
-        if (data.files.length > 0) window.open(data.files[0].webViewLink, '_blank');
-        else alert('فائل نہیں ملی۔');
+        if (data.files && data.files.length > 0) {
+            // یہ لنک خود بخود موبائل پر گوگل ڈرائیو ایپ کو کھولنے کی کوشش کرے گا
+            window.open(data.files[0].webViewLink, '_blank');
+        } else { alert('فائل نہیں ملی۔'); }
     } catch (e) { alert('انٹرنیٹ چیک کریں۔'); }
 }
 
