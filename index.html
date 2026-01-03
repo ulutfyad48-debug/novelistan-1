@@ -11,24 +11,24 @@
         body { font-family: 'Noto Nastaliq Urdu', serif; background: var(--bg); color: var(--text); }
         .container { max-width: 500px; margin: 0 auto; padding: 20px; }
         
+        /* ہیڈر */
         .header { text-align: center; padding: 40px 10px; background: linear-gradient(135deg, #1e293b 0%, #020617 100%); border-bottom: 4px solid var(--accent); border-radius: 0 0 30px 30px; margin-bottom: 30px; }
         .header h1 { font-size: 3rem; color: #fff; }
 
-        /* ہوم اسکرین مینو */
+        /* مینو */
         .menu-grid { display: grid; gap: 15px; }
         .nav-btn { background: var(--card); padding: 22px; border-radius: 15px; border: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s; }
-        .nav-btn:hover { border-color: var(--accent); background: #2d3e54; }
 
-        /* لسٹ ڈیزائن */
-        .ep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
-        .item-card { background: white; color: #0f172a; padding: 18px 10px; border-radius: 12px; text-align: center; font-weight: bold; cursor: pointer; border-bottom: 4px solid #cbd5e1; position: relative; }
-        .item-card.locked { background: #cbd5e1; color: #64748b; }
-        .status { font-size: 11px; display: block; margin-top: 5px; font-family: sans-serif; }
+        /* لسٹ کارڈز */
+        .items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        .card { background: white; color: #0f172a; padding: 20px 10px; border-radius: 12px; text-align: center; font-weight: bold; cursor: pointer; border-bottom: 4px solid #cbd5e1; }
+        .card.locked { background: #cbd5e1; color: #64748b; }
+        .status { font-size: 11px; display: block; margin-top: 5px; }
 
-        /* موڈلز (Popups) */
+        /* پاپ اپس */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal.active { display: flex; }
-        .modal-content { background: white; color: #1e293b; padding: 30px; border-radius: 20px; width: 100%; text-align: center; }
+        .modal-box { background: white; color: #1e293b; padding: 30px; border-radius: 20px; width: 100%; text-align: center; }
         .btn-wa { background: #22c55e; color: white; text-decoration: none; padding: 14px; display: block; border-radius: 10px; margin: 15px 0; font-weight: bold; }
         .btn-back { background: var(--accent); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; margin-bottom: 20px; cursor: pointer; font-weight: bold; }
         input { width: 100%; padding: 15px; margin: 15px 0; border: 2px solid #ddd; border-radius: 10px; text-align: center; font-size: 1.2rem; }
@@ -39,37 +39,37 @@
     <div id="home-screen" class="container">
         <header class="header">
             <h1>ناولستان</h1>
-            <p>بازگشتِ عشق - آفیشل ایپ</p>
+            <p>تمام سیکشنز - آٹو اپ ڈیٹ</p>
         </header>
         <div class="menu-grid">
-            <div class="nav-btn" onclick="showSection('novel')"><h3>📖 ناول پڑھیں</h3><span>➔</span></div>
-            <div class="nav-btn" onclick="showSection('poetry')"><h3>📜 اردو شاعری</h3><span>➔</span></div>
-            <div class="nav-btn" onclick="showSection('codewords')"><h3>🔐 کوڈ ورڈز</h3><span>➔</span></div>
-            <div class="nav-btn" onclick="showSection('about')"><h3>👤 مصنف</h3><span>➔</span></div>
+            <div class="nav-btn" onclick="openSection('novel')"><h3>📖 ناول پڑھیں</h3><span>➔</span></div>
+            <div class="nav-btn" onclick="openSection('poetry')"><h3>📜 اردو شاعری</h3><span>➔</span></div>
+            <div class="nav-btn" onclick="openSection('codewords')"><h3>🔐 کوڈ ورڈز</h3><span>➔</span></div>
+            <div class="nav-btn" onclick="openSection('about')"><h3>👤 مصنف</h3><span>➔</span></div>
         </div>
     </div>
 
     <div id="content-screen" class="container" style="display:none;">
-        <button class="btn-back" onclick="goHome()">🏠 ہوم پیج</button>
+        <button class="btn-back" onclick="location.reload()">🏠 ہوم پیج</button>
         <h2 id="section-title" style="text-align:center; margin-bottom:20px; color:var(--accent);"></h2>
-        <div id="items-list" class="ep-grid"></div>
+        <div id="items-list" class="items-grid"></div>
     </div>
 
     <div id="pay-modal" class="modal">
-        <div class="modal-content">
-            <h2 style="color:var(--accent)">🔒 لاک سیکشن</h2>
+        <div class="modal-box">
+            <h2 style="color:var(--accent)">🔒 لاک</h2>
             <p id="pay-info" style="margin:20px 0; font-weight:bold;"></p>
-            <a id="wa-link" href="#" class="btn-wa" target="_blank">واٹس ایپ سے خریدیں</a>
-            <button onclick="showCodeInput()" style="width:100%; padding:10px; background:none; border:1px solid #ccc; border-radius:8px; cursor:pointer;">میرے پاس کوڈ ہے</button>
+            <a id="wa-link" href="#" class="btn-wa" target="_blank">واٹس ایپ رابطہ</a>
+            <button onclick="showCodeInput()" style="width:100%; padding:10px; background:none; border:1px solid #ccc; border-radius:8px;">میرے پاس کوڈ ہے</button>
             <p onclick="closeModals()" style="margin-top:20px; cursor:pointer;">بند کریں</p>
         </div>
     </div>
 
     <div id="code-modal" class="modal">
-        <div class="modal-content">
-            <h3>🔑 ڈیلی ان لاک کوڈ درج کریں</h3>
+        <div class="modal-box">
+            <h3>🔑 آج کا کوڈ درج کریں</h3>
             <input type="text" id="user-code" placeholder="XXXXXX">
-            <button class="btn-wa" style="border:none; width:100%;" onclick="verifyAccess()">تصدیق کریں</button>
+            <button class="btn-wa" style="border:none; width:100%;" onclick="checkAccess()">تصدیق کریں</button>
             <button onclick="closeModals()" style="border:none; background:none; cursor:pointer;">کینسل</button>
         </div>
     </div>
