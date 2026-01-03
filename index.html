@@ -3,63 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ناولستان - بازگشتِ عشق</title>
+    <title>ناولستان</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --accent: #e11d48; --text: #f8fafc; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Noto Nastaliq Urdu', serif; background: var(--bg); color: var(--text); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
         
-        /* بہتر امیج کنٹینر */
-        .cover-section { width: 100%; height: 260px; border-radius: 20px; overflow: hidden; position: relative; margin-bottom: 25px; background: #1e293b; border: 1px solid #334155; }
-        .cover-image { width: 100%; height: 100%; object-fit: cover; }
-        .cover-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8)); display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 20px; }
+        /* سادہ اور صاف ہیڈر */
+        .header { text-align: center; padding: 40px 0; background: linear-gradient(45deg, #1e293b, #0f172a); border-radius: 20px; margin-bottom: 30px; border: 1px solid #334155; }
+        .header h1 { font-size: 3rem; color: var(--accent); }
 
-        /* کارڈز کی سیٹنگ */
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; }
-        .card { background: var(--card); border-radius: 18px; padding: 12px; text-align: center; cursor: pointer; border: 1px solid #334155; transition: 0.3s; }
-        .card:hover { border-color: var(--accent); transform: scale(1.02); }
-        .card img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; background: #0f172a; display: block; }
+        /* صرف نام والے کارڈز */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .menu-card { background: var(--card); padding: 30px 10px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid #334155; transition: 0.3s; }
+        .menu-card:hover { border-color: var(--accent); background: #26354a; }
+        .menu-card i { font-size: 2rem; display: block; margin-bottom: 10px; }
+        .menu-card h3 { font-size: 1.2rem; }
 
         .content-section { display: none; }
-        .active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .active { display: block; }
 
-        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
-        .item-box { background: white; color: #0f172a; padding: 15px; border-radius: 12px; text-align: center; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-back { background: #f1f5f9; color: #0f172a; padding: 10px 20px; border-radius: 10px; border: none; margin-bottom: 15px; cursor: pointer; font-weight: bold; }
+        .list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 20px; }
+        .file-box { background: white; color: #0f172a; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; cursor: pointer; }
+        .btn-back { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="container" id="home-screen">
-        <div class="cover-section">
-            <img src="https://lh3.googleusercontent.com/d/YOUR_COVER_IMAGE_ID" class="cover-image" onerror="this.src='https://via.placeholder.com/800x260/1e293b/ffffff?text=ناولستان'">
-            <div class="cover-overlay">
-                <h1 style="font-size: 2.5rem; color: white;">ناولستان</h1>
-                <p style="color: #cbd5e1;">ناول: بازگشتِ عشق</p>
-            </div>
+        <div class="header">
+            <h1>ناولستان</h1>
+            <p>بازگشتِ عشق</p>
         </div>
-        <div class="categories-grid">
-            <div class="card" onclick="showSection('novels')">
-                <img src="https://lh3.googleusercontent.com/d/IMAGE_ID_1" onerror="this.src='https://via.placeholder.com/300x160/e11d48/ffffff?text=ناول+پڑھیں'">
-                <h3>📖 ناول پڑھیں</h3>
+
+        <div class="menu-grid">
+            <div class="menu-card" onclick="showSection('novels')">
+                <span>📖</span>
+                <h3>ناول پڑھیں</h3>
             </div>
-            <div class="card" onclick="showSection('poetry')">
-                <img src="https://lh3.googleusercontent.com/d/IMAGE_ID_2" onerror="this.src='https://via.placeholder.com/300x160/7c3aed/ffffff?text=اردو+شاعری'">
-                <h3>📜 اردو شاعری</h3>
+            <div class="menu-card" onclick="showSection('poetry')">
+                <span>📜</span>
+                <h3>اردو شاعری</h3>
             </div>
-            <div class="card" onclick="showSection('about')">
-                <img src="https://lh3.googleusercontent.com/d/IMAGE_ID_3" onerror="this.src='https://via.placeholder.com/300x160/059669/ffffff?text=مصنف'">
-                <h3>👤 مصنف</h3>
+            <div class="menu-card" onclick="showSection('codewords')">
+                <span>🔐</span>
+                <h3>کوڈ ورڈز</h3>
+            </div>
+            <div class="menu-card" onclick="showSection('about')">
+                <span>👤</span>
+                <h3>مصنف</h3>
             </div>
         </div>
     </div>
 
     <div id="novels-section" class="content-section container">
-        <button class="btn-back" onclick="showHome()">← پیچھے جائیں</button>
-        <div id="episodes-container" class="items-grid"></div>
+        <button class="btn-back" onclick="showHome()">← واپسی</button>
+        <div id="novels-list" class="list-grid"></div>
+    </div>
+
+    <div id="poetry-section" class="content-section container">
+        <button class="btn-back" onclick="showHome()">← واپسی</button>
+        <div id="poetry-list" class="list-grid"></div>
     </div>
 
     <script src="script.js"></script>
